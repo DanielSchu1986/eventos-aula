@@ -1,4 +1,4 @@
-package br.upf.eventos
+package br.upf.eventos.repository
 
 import br.upf.eventos.model.Evento
 import br.upf.eventos.model.StatusEvento
@@ -7,6 +7,8 @@ import java.time.LocalDate
 
 @Repository
 class EventoRepository(private var eventos: MutableList<Evento>) {
+
+    private var idCont = 4L
 
     init {
         val hoje = LocalDate.now()
@@ -44,4 +46,7 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
     }
 
     fun findAll() = eventos
+    fun cadastrar(evento: Evento) {
+        eventos.add(evento.copy(id = idCont++))
+    }
 }
