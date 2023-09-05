@@ -46,7 +46,21 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
     }
 
     fun findAll() = eventos
-    fun cadastrar(evento: Evento) {
-        eventos.add(evento.copy(id = idCont++))
+    fun cadastrar(evento: Evento): Evento {
+        val eventoComId = evento.copy(id = idCont++)
+        eventos.add(eventoComId)
+        return eventoComId
+    }
+
+    fun update(eventoAtualizar: Evento): Evento {
+        findAll()
+            .removeIf { it.id == eventoAtualizar.id }
+        eventos.add(eventoAtualizar)
+        return eventoAtualizar
+    }
+
+    fun deletar(id: Long) {
+        val evento = eventos.first { it.id == id }
+        eventos.remove(evento)
     }
 }

@@ -21,6 +21,7 @@ class EventoConverter {
 
     fun toEventoResponseDTO(evento: Evento): EventoResponseDTO {
         return EventoResponseDTO(
+            id = evento.id ?: 0,
             nome = evento.nome,
             data = evento.data,
             dataInicioInsc = evento.dataInicioInsc,
