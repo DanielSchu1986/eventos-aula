@@ -1,4 +1,4 @@
-package br.upf.eventos.model
+package br.upf.sistemasdeeventos.model
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -13,4 +13,3 @@ data class Evento(
     val status: StatusEvento,
     val inscritos: List<Inscricao> = listOf()
 )
-

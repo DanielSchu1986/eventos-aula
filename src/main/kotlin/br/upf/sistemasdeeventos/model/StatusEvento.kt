@@ -1,4 +1,4 @@
-package br.upf.eventos.model
+package br.upf.sistemasdeeventos.model
 
 enum class StatusEvento {
     PREVISTO,
@@ -6,4 +6,3 @@ enum class StatusEvento {
     ENCERRADO,
     CANCELADO
 }
-

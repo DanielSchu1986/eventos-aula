@@ -1,11 +1,11 @@
-package br.upf.eventos
+package br.upf.sistemasdeeventos
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SistemaDeEventosApplication
+class SistemasDeEventosApplication
 
 fun main(args: Array<String>) {
-	runApplication<SistemaDeEventosApplication>(*args)
+	runApplication<SistemasDeEventosApplication>(*args)
 }

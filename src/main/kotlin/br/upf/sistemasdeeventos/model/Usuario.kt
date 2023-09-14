@@ -1,4 +1,4 @@
-package br.upf.eventos.model
+package br.upf.sistemasdeeventos.model
 
 data class Usuario(
     val id: Long? = null,
