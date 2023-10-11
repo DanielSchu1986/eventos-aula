@@ -20,7 +20,7 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
             status = StatusEvento.ABERTO
         )
         val evento2 = Evento(
-            id = 1,
+            id = 2,
             nome = "UPF em Dança 2",
             data = hoje,
             dataInicioInsc = hoje.atStartOfDay().plusDays(10),
@@ -29,7 +29,7 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
             status = StatusEvento.ABERTO
         )
         val evento3 = Evento(
-            id = 1,
+            id = 3,
             nome = "UPF em Dança 3",
             data = hoje,
             dataInicioInsc = hoje.atStartOfDay().plusDays(10),
