@@ -41,5 +41,8 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
     }
 
     fun findAll() = eventos
+    fun cadastrar(evento: Evento) {
+        eventos.add(evento)
+    }
 
 }
