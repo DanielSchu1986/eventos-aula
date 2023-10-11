@@ -2,22 +2,16 @@ package br.upf.eventos.service
 
 import br.upf.eventos.model.Evento
 import br.upf.eventos.model.StatusEvento
+import br.upf.eventos.repository.EventoRepository
+import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 
-class EventoService {
+@Service
+class EventoService(private val repository: EventoRepository) {
 
     fun listar(): List<Evento> {
-        val hoje = LocalDate.now()
-        val evento = Evento(
-            id = 1,
-            nome = "UPF em Dança",
-            data = hoje,
-            dataInicioInsc = hoje.atStartOfDay().plusDays(10),
-            dataFimInsc = hoje.atStartOfDay().plusDays(20),
-            descricao = "Melhor evento de dança de salão",
-            status = StatusEvento.ABERTO
-        )
-        return listOf(evento)
+        return repository.findAll()
     }
 
 }
