@@ -21,8 +21,9 @@ class EventoService(private val repository: EventoRepository,
         return converter.toEventoResponseDTO(evento)
     }
 
-    fun cadastrar(dto: EventoDTO) {
-        repository.cadastrar(converter.toEvento(dto))
+    fun cadastrar(dto: EventoDTO): EventoResponseDTO {
+        return converter.toEventoResponseDTO(
+            repository.cadastrar(converter.toEvento(dto)))
     }
 
     fun atualizar(id: Long, dto: EventoDTO) {
