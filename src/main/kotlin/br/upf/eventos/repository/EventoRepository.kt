@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @Repository
 class EventoRepository(private var eventos: MutableList<Evento>) {
-
+    private var idCont = 4L
     init {
         val hoje = LocalDate.now()
         val evento1 = Evento(
@@ -42,7 +42,7 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
 
     fun findAll() = eventos
     fun cadastrar(evento: Evento) {
-        eventos.add(evento)
+        eventos.add(evento.copy(id = idCont++))
     }
 
 }

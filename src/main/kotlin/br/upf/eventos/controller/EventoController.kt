@@ -1,5 +1,6 @@
 package br.upf.eventos.controller
 
+import br.upf.eventos.dtos.EventoDTO
 import br.upf.eventos.model.Evento
 import br.upf.eventos.service.EventoService
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,7 +25,7 @@ class EventoController(val service: EventoService) {
     }
 
     @PostMapping
-    fun cadastrar(@RequestBody evento: Evento) {
+    fun cadastrar(@RequestBody evento: EventoDTO) {
         service.cadastrar(evento)
     }
 
