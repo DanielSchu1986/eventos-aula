@@ -5,6 +5,7 @@ import br.upf.eventos.dtos.EventoResponseDTO
 import br.upf.eventos.model.Evento
 import br.upf.eventos.service.EventoService
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -37,4 +38,8 @@ class EventoController(val service: EventoService) {
         service.atualizar(id, evento)
     }
 
+    @DeleteMapping("/{id}")
+    fun daletar(@PathVariable id: Long) {
+        service.deletar(id)
+    }
 }

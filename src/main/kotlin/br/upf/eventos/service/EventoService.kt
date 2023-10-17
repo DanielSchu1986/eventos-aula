@@ -30,4 +30,9 @@ class EventoService(private val repository: EventoRepository,
         repository.update(evento, converter.toEvento(dto))
     }
 
+    fun deletar(id: Long) {
+        val evento = repository.findAll().first { it.id == id }
+        repository.deletar(evento)
+    }
+
 }

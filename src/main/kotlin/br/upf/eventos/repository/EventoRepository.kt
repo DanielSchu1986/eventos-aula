@@ -60,4 +60,8 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
         )
     }
 
+    fun deletar(evento: Evento) {
+        eventos.remove(evento)
+    }
+
 }
