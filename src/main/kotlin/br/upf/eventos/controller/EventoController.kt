@@ -1,6 +1,7 @@
 package br.upf.eventos.controller
 
 import br.upf.eventos.dtos.EventoDTO
+import br.upf.eventos.dtos.EventoResponseDTO
 import br.upf.eventos.model.Evento
 import br.upf.eventos.service.EventoService
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController
 class EventoController(val service: EventoService) {
 
     @GetMapping
-    fun listar(): List<Evento> {
+    fun listar(): List<EventoResponseDTO> {
         return service.listar()
     }
 
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id: Long): Evento {
+    fun buscarPorId(@PathVariable id: Long): EventoResponseDTO {
         return service.buscarPorId(id)
     }
 

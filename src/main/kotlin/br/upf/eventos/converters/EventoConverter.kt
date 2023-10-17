@@ -1,6 +1,7 @@
 package br.upf.eventos.converters
 
 import br.upf.eventos.dtos.EventoDTO
+import br.upf.eventos.dtos.EventoResponseDTO
 import br.upf.eventos.model.Evento
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -16,6 +17,16 @@ class EventoConverter {
             dataFimInsc = LocalDateTime.now(),
             descricao = dto.descricao,
             status = dto.status
+        )
+    }
+
+    fun toEventoResponseDTO(evento: Evento): EventoResponseDTO {
+        return EventoResponseDTO(
+            nome = evento.nome,
+            data = evento.data,
+            descricao = evento.descricao,
+            status = evento.status,
+            inscritos = evento.inscritos
         )
     }
 
