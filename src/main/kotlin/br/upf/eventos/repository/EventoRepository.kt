@@ -45,4 +45,19 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
         eventos.add(evento.copy(id = idCont++))
     }
 
+    fun update(eventoAntigo: Evento, eventoAtualizar: Evento) {
+        eventos.remove(eventoAntigo)
+        eventos.add(
+            Evento(
+                id = eventoAntigo.id,
+                nome = eventoAtualizar.nome,
+                data = eventoAtualizar.data,
+                dataInicioInsc = eventoAtualizar.dataInicioInsc,
+                dataFimInsc = eventoAtualizar.dataFimInsc,
+                descricao = eventoAtualizar.descricao,
+                status = eventoAtualizar.status,
+            )
+        )
+    }
+
 }
