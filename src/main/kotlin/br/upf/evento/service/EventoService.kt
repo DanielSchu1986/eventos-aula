@@ -15,4 +15,8 @@ class EventoService(private val repository: EventoRepository) {
         return repository.findAll().first { it.id == id }
     }
 
+    fun cadastrar(evento: Evento) {
+        repository.cadastrar(evento)
+    }
+
 }
