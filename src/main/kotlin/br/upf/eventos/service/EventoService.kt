@@ -26,9 +26,11 @@ class EventoService(private val repository: EventoRepository,
             repository.cadastrar(converter.toEvento(dto)))
     }
 
-    fun atualizar(id: Long, dto: EventoDTO) {
+    fun atualizar(id: Long, dto: EventoDTO) : EventoResponseDTO {
         val evento = repository.findAll().first { it.id == id }
-        repository.update(evento, converter.toEvento(dto))
+        return converter.toEventoResponseDTO(
+            repository.update(evento, converter.toEvento(dto))
+        )
     }
 
     fun deletar(id: Long) {

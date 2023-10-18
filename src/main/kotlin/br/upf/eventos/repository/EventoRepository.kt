@@ -47,19 +47,21 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
         return eventoCadastrado
     }
 
-    fun update(eventoAntigo: Evento, eventoAtualizar: Evento) {
+    fun update(eventoAntigo: Evento, eventoAtualizar: Evento): Evento {
         eventos.remove(eventoAntigo)
-        eventos.add(
-            Evento(
-                id = eventoAntigo.id,
-                nome = eventoAtualizar.nome,
-                data = eventoAtualizar.data,
-                dataInicioInsc = eventoAtualizar.dataInicioInsc,
-                dataFimInsc = eventoAtualizar.dataFimInsc,
-                descricao = eventoAtualizar.descricao,
-                status = eventoAtualizar.status,
-            )
+        val eventoComId = Evento(
+            id = eventoAntigo.id,
+            nome = eventoAtualizar.nome,
+            data = eventoAtualizar.data,
+            dataInicioInsc = eventoAtualizar.dataInicioInsc,
+            dataFimInsc = eventoAtualizar.dataFimInsc,
+            descricao = eventoAtualizar.descricao,
+            status = eventoAtualizar.status,
         )
+        eventos.add(
+            eventoComId
+        )
+        return eventoComId
     }
 
     fun deletar(evento: Evento) {
