@@ -1,5 +1,6 @@
 package br.upf.evento.repository
 
+import br.upf.evento.dtos.EventoDTO
 import br.upf.evento.model.Evento
 import br.upf.evento.model.StatusEvento
 import org.springframework.stereotype.Repository
@@ -9,6 +10,7 @@ import java.time.LocalDate
 class EventoRepository(private var eventos: MutableList<Evento>) {
 
     private var idCont = 4L
+
     init {
         val hoje = LocalDate.now()
         val evento1 = Evento(
@@ -42,8 +44,29 @@ class EventoRepository(private var eventos: MutableList<Evento>) {
     }
 
     fun findAll() = eventos
-    fun cadastrar(evento: Evento) {
-        eventos.add(evento.copy(id = idCont++))
+
+    fun cadastrar(evento: Evento): Evento {
+        val eventoNovo = evento.copy(id = idCont++)
+        eventos.add(eventoNovo)
+        return eventoNovo
+    }
+
+    fun update(evento: Evento, dto: EventoDTO): Evento {
+        eventos.removeIf { it.id == evento.id }
+        val eventoAtualizado = evento.copy(
+            nome = dto.nome,
+            data = dto.data,
+            descricao = dto.descricao,
+            status = dto.status
+        )
+        eventos.add(
+            eventoAtualizado
+        )
+        return eventoAtualizado
+    }
+
+    fun deletar(id: Long) {
+        eventos.removeIf { it.id == id }
     }
 
 }
