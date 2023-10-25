@@ -8,4 +8,6 @@ import java.time.LocalDate
 
 @Repository
 interface EventoRepository: JpaRepository<Evento, Long> {
+    fun findByNome(nomeEvento: String): List<Evento>
+
 }

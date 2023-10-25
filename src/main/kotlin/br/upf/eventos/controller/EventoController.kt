@@ -2,8 +2,8 @@ package br.upf.eventos.controller
 
 import br.upf.eventos.dtos.EventoDTO
 import br.upf.eventos.dtos.EventoResponseDTO
-import br.upf.eventos.model.Evento
 import br.upf.eventos.service.EventoService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -23,8 +24,8 @@ import org.springframework.web.util.UriComponentsBuilder
 class EventoController(val service: EventoService) {
 
     @GetMapping
-    fun listar(): List<EventoResponseDTO> {
-        return service.listar()
+    fun listar(@RequestParam(required = false) nomeEvento: String?): List<EventoResponseDTO> {
+        return service.listar(nomeEvento)
     }
 
     @GetMapping("/{id}")
@@ -33,6 +34,7 @@ class EventoController(val service: EventoService) {
     }
 
     @PostMapping
+    @Transactional
     fun cadastrar(@RequestBody @Valid evento: EventoDTO,
                   uriBuilder: UriComponentsBuilder): ResponseEntity<EventoResponseDTO> {
         val eventoResponse = service.cadastrar(evento)
@@ -41,12 +43,14 @@ class EventoController(val service: EventoService) {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun atualizar(@PathVariable id: Long,
                   @RequestBody @Valid evento: EventoDTO): EventoResponseDTO {
         return service.atualizar(id, evento)
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun daletar(@PathVariable id: Long) {
         service.deletar(id)

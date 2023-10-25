@@ -4,7 +4,6 @@ import br.upf.eventos.converters.EventoConverter
 import br.upf.eventos.dtos.EventoDTO
 import br.upf.eventos.dtos.EventoResponseDTO
 import br.upf.eventos.exceptions.NotFoundException
-import br.upf.eventos.model.Evento
 import br.upf.eventos.repository.EventoRepository
 import org.springframework.stereotype.Service
 
@@ -14,8 +13,14 @@ private const val ERROR_MESSAGE = "Evento não encontrado!!!"
 class EventoService(private val repository: EventoRepository,
     val converter: EventoConverter) {
 
-    fun listar(): List<EventoResponseDTO> {
-        return repository.findAll()
+    fun listar(nomeEvento: String?): List<EventoResponseDTO> {
+        val eventos = if (nomeEvento == null) {
+            repository.findAll()
+        } else {
+            repository.findByNome(nomeEvento)
+        }
+
+        return eventos
             .map(converter::toEventoResponseDTO)
     }
 
