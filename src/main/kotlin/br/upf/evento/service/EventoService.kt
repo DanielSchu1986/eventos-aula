@@ -4,7 +4,6 @@ import br.upf.evento.converters.EventoConverter
 import br.upf.evento.dtos.EventoDTO
 import br.upf.evento.dtos.EventoResponseDTO
 import br.upf.evento.exceptions.NotFoundException
-import br.upf.evento.model.Evento
 import br.upf.evento.repository.EventoRepository
 import org.springframework.stereotype.Service
 
@@ -12,8 +11,13 @@ import org.springframework.stereotype.Service
 class EventoService(private val repository: EventoRepository,
     val converter: EventoConverter) {
 
-    fun listar(): List<EventoResponseDTO> {
-        return repository.findAll()
+    fun listar(nomeEvento: String?): List<EventoResponseDTO> {
+        val evento = if (nomeEvento == null) {
+            repository.findAll()
+        } else {
+            repository.findByNome(nomeEvento)
+        }
+        return evento
             .map { converter.toEventoResponseDTO(it) }
     }
 
