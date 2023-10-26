@@ -4,6 +4,9 @@ import br.upf.evento.dtos.EventoDTO
 import br.upf.evento.dtos.EventoResponseDTO
 import br.upf.evento.service.EventoService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,9 +26,9 @@ import org.springframework.web.util.UriComponentsBuilder
 class EventoController(private val service: EventoService) {
 
     @GetMapping
-    fun listar(@RequestParam(required = false)
-               nomeEvento: String?): List<EventoResponseDTO> {
-        return service.listar(nomeEvento)
+    fun listar(@RequestParam(required = false) nomeEvento: String?,
+        @PageableDefault(size = 10) paginacao: Pageable): Page<EventoResponseDTO> {
+        return service.listar(nomeEvento, paginacao)
     }
 
     @GetMapping("/{id}")
