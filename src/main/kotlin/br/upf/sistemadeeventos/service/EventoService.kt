@@ -1,24 +1,28 @@
 package br.upf.sistemadeeventos.service
 
-import br.upf.sistemadeeventos.model.Evento
-import br.upf.sistemadeeventos.model.StatusEvento
+import br.upf.sistemadeeventos.converters.EventoConverter
+import br.upf.sistemadeeventos.dtos.EventoRequestDTO
+import br.upf.sistemadeeventos.dtos.EventoResponseDTO
 import br.upf.sistemadeeventos.repository.EventoRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 
 @Service
-class EventoService(val repository: EventoRepository) {
+class EventoService(val repository: EventoRepository,
+    val converter: EventoConverter) {
 
-    fun listar(): List<Evento> {
+    fun listar(): List<EventoResponseDTO> {
         return repository.findAll()
+            .map { converter.toEventoResponseDTO(it) }
     }
 
-    fun buscaPorId(id: Long): Evento {
-        return repository.findAll().first { it.id == id }
+    fun buscaPorId(id: Long): EventoResponseDTO {
+        val evento = repository.findAll().first { it.id == id }
+        return converter.toEventoResponseDTO(evento)
     }
 
-    fun cadastra(evento: Evento) {
-        repository.cadastrar(evento)
+    fun cadastra(dto: EventoRequestDTO) {
+        repository.cadastrar(
+            converter.toEvento(dto))
     }
 
 }
