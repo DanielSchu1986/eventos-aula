@@ -25,4 +25,8 @@ class EventoService(val repository: EventoRepository,
             converter.toEvento(dto))
     }
 
+    fun update(id: Long, evento: EventoRequestDTO) {
+        repository.update(id, evento)
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.upf.sistemadeeventos.repository
 
+import br.upf.sistemadeeventos.dtos.EventoRequestDTO
 import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.model.StatusEvento
 import org.springframework.stereotype.Repository
@@ -49,6 +50,18 @@ class EventoRepository (private var eventos: MutableList<Evento>) {
 
     fun cadastrar(evento: Evento) {
         eventos.add(evento.copy(id = idCont++))
+    }
+
+    fun update(id: Long, dto: EventoRequestDTO) {
+        val evento = eventos.first { it.id == id }
+            .copy(
+                nome = dto.nome,
+                data = dto.data,
+                descricao = dto.descricao,
+                status = dto.status
+            )
+        eventos.removeIf { it.id == id }
+        eventos.add(evento)
     }
 
 }
