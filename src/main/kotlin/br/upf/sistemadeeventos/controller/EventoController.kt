@@ -5,6 +5,7 @@ import br.upf.sistemadeeventos.dtos.EventoResponseDTO
 import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.service.EventoService
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -35,5 +36,10 @@ class EventoController(private val service: EventoService) {
     @PutMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody @Valid evento: EventoRequestDTO) {
         service.update(id, evento)
+    }
+
+    @DeleteMapping("/{id}")
+    fun deletar(@PathVariable id: Long) {
+        service.remove(id)
     }
 }

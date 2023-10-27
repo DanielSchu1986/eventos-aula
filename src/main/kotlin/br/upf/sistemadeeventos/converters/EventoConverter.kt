@@ -16,7 +16,8 @@ class EventoConverter {
             descricao = evento.descricao,
             status = evento.status,
             dataInicioInsc = evento.dataInicioInsc,
-            dataFimInsc = evento.dataFimInsc
+            dataFimInsc = evento.dataFimInsc,
+            id = evento.id!!
         )
     }
 

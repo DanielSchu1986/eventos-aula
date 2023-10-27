@@ -29,4 +29,8 @@ class EventoService(val repository: EventoRepository,
         repository.update(id, evento)
     }
 
+    fun remove(id: Long) {
+        repository.remove(id)
+    }
+
 }

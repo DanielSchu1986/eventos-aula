@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class EventoResponseDTO(
+    val id: Long,
     val nome: String,
     val data: LocalDate,
     val dataInicioInsc: LocalDateTime,

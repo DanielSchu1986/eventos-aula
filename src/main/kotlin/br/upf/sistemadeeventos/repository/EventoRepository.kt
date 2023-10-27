@@ -64,4 +64,8 @@ class EventoRepository (private var eventos: MutableList<Evento>) {
         eventos.add(evento)
     }
 
+    fun remove(id: Long) {
+        eventos.removeIf { it.id == id }
+    }
+
 }
