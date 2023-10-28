@@ -48,8 +48,10 @@ class EventoRepository (private var eventos: MutableList<Evento>) {
 
     fun findAll() = eventos
 
-    fun cadastrar(evento: Evento) {
-        eventos.add(evento.copy(id = idCont++))
+    fun cadastrar(evento: Evento): Evento {
+        val eventoAdicionado = evento.copy(id = idCont++)
+        eventos.add(eventoAdicionado)
+        return eventoAdicionado
     }
 
     fun update(id: Long, dto: EventoRequestDTO) {

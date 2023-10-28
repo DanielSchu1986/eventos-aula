@@ -5,6 +5,7 @@ import br.upf.sistemadeeventos.dtos.EventoResponseDTO
 import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.service.EventoService
 import jakarta.validation.Valid
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/eventos")
@@ -29,8 +31,12 @@ class EventoController(private val service: EventoService) {
     }
 
     @PostMapping
-    fun cadastrar(@RequestBody @Valid evento: EventoRequestDTO) {
-        service.cadastra(evento)
+    fun cadastrar(@RequestBody @Valid evento: EventoRequestDTO,
+    uriBuilder: UriComponentsBuilder): ResponseEntity<EventoResponseDTO> {
+        val eventoResponse = service.cadastra(evento)
+        val uri = uriBuilder.path("/eventos/${eventoResponse.id}")
+            .build().toUri()
+        return ResponseEntity.created(uri).body(eventoResponse)
     }
 
     @PutMapping("/{id}")

@@ -20,9 +20,10 @@ class EventoService(val repository: EventoRepository,
         return converter.toEventoResponseDTO(evento)
     }
 
-    fun cadastra(dto: EventoRequestDTO) {
-        repository.cadastrar(
+    fun cadastra(dto: EventoRequestDTO): EventoResponseDTO {
+        val eventoAdicionado = repository.cadastrar(
             converter.toEvento(dto))
+        return converter.toEventoResponseDTO(eventoAdicionado)
     }
 
     fun update(id: Long, evento: EventoRequestDTO) {
