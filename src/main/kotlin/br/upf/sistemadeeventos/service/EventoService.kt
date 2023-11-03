@@ -17,24 +17,31 @@ class EventoService(val repository: EventoRepository,
     }
 
     fun buscaPorId(id: Long): EventoResponseDTO {
-        val evento = repository.findAll().firstOrNull { it.id == id }
-            ?: throw NotFoundException("Evento não encontrado!")
+        val evento = repository.findById(id)
+            .orElseThrow { NotFoundException("Evento não encontrado!") }
         return converter.toEventoResponseDTO(evento)
     }
 
     fun cadastra(dto: EventoRequestDTO): EventoResponseDTO {
-        val eventoAdicionado = repository.cadastrar(
-            converter.toEvento(dto))
+        val eventoAdicionado = repository.save(converter.toEvento(dto))
         return converter.toEventoResponseDTO(eventoAdicionado)
     }
 
     fun update(id: Long, evento: EventoRequestDTO): EventoResponseDTO {
-        val evento = repository.update(id, evento)
-        return converter.toEventoResponseDTO(evento)
+        val eventoAntigo = repository.findById(id)
+            .orElseThrow { NotFoundException("Evento não encontrado!") }
+        val eventoAdicionado = repository.save(
+            eventoAntigo.copy(
+                nome = evento.nome,
+                data = evento.data,
+                descricao = evento.descricao,
+                status = evento.status
+        ))
+        return converter.toEventoResponseDTO(eventoAdicionado)
     }
 
     fun remove(id: Long) {
-        repository.remove(id)
+        repository.deleteById(id)
     }
 
 }
