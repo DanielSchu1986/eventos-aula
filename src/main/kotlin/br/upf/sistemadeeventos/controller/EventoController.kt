@@ -5,6 +5,7 @@ import br.upf.sistemadeeventos.dtos.EventoResponseDTO
 import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.service.EventoService
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -31,8 +33,10 @@ class EventoController(private val service: EventoService) {
     }
 
     @PostMapping
-    fun cadastrar(@RequestBody @Valid evento: EventoRequestDTO,
-    uriBuilder: UriComponentsBuilder): ResponseEntity<EventoResponseDTO> {
+    fun cadastrar(
+        @RequestBody @Valid evento: EventoRequestDTO,
+        uriBuilder: UriComponentsBuilder
+    ): ResponseEntity<EventoResponseDTO> {
         val eventoResponse = service.cadastra(evento)
         val uri = uriBuilder.path("/eventos/${eventoResponse.id}")
             .build().toUri()
@@ -40,11 +44,13 @@ class EventoController(private val service: EventoService) {
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody @Valid evento: EventoRequestDTO) {
-        service.update(id, evento)
+    fun update(@PathVariable id: Long, @RequestBody @Valid evento: EventoRequestDTO):
+            EventoResponseDTO {
+        return service.update(id, evento)
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletar(@PathVariable id: Long) {
         service.remove(id)
     }

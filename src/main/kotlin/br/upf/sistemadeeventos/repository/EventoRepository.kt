@@ -1,6 +1,7 @@
 package br.upf.sistemadeeventos.repository
 
 import br.upf.sistemadeeventos.dtos.EventoRequestDTO
+import br.upf.sistemadeeventos.exceptions.NotFoundException
 import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.model.StatusEvento
 import org.springframework.stereotype.Repository
@@ -54,16 +55,18 @@ class EventoRepository (private var eventos: MutableList<Evento>) {
         return eventoAdicionado
     }
 
-    fun update(id: Long, dto: EventoRequestDTO) {
-        val evento = eventos.first { it.id == id }
-            .copy(
+    fun update(id: Long, dto: EventoRequestDTO): Evento {
+        val evento = eventos.firstOrNull { it.id == id }
+            ?.copy(
                 nome = dto.nome,
                 data = dto.data,
                 descricao = dto.descricao,
                 status = dto.status
             )
+            ?: throw NotFoundException("Evento não encontrado!")
         eventos.removeIf { it.id == id }
         eventos.add(evento)
+        return evento
     }
 
     fun remove(id: Long) {
