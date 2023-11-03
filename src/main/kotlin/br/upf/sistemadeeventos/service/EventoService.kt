@@ -3,6 +3,7 @@ package br.upf.sistemadeeventos.service
 import br.upf.sistemadeeventos.converters.EventoConverter
 import br.upf.sistemadeeventos.dtos.EventoRequestDTO
 import br.upf.sistemadeeventos.dtos.EventoResponseDTO
+import br.upf.sistemadeeventos.exceptions.NotFoundException
 import br.upf.sistemadeeventos.repository.EventoRepository
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,8 @@ class EventoService(val repository: EventoRepository,
     }
 
     fun buscaPorId(id: Long): EventoResponseDTO {
-        val evento = repository.findAll().first { it.id == id }
+        val evento = repository.findAll().firstOrNull { it.id == id }
+            ?: throw NotFoundException("Evento não encontrado!")
         return converter.toEventoResponseDTO(evento)
     }
 
@@ -26,8 +28,9 @@ class EventoService(val repository: EventoRepository,
         return converter.toEventoResponseDTO(eventoAdicionado)
     }
 
-    fun update(id: Long, evento: EventoRequestDTO) {
-        repository.update(id, evento)
+    fun update(id: Long, evento: EventoRequestDTO): EventoResponseDTO {
+        val evento = repository.update(id, evento)
+        return converter.toEventoResponseDTO(evento)
     }
 
     fun remove(id: Long) {
