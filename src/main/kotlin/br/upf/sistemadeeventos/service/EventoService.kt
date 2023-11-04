@@ -5,15 +5,22 @@ import br.upf.sistemadeeventos.dtos.EventoRequestDTO
 import br.upf.sistemadeeventos.dtos.EventoResponseDTO
 import br.upf.sistemadeeventos.exceptions.NotFoundException
 import br.upf.sistemadeeventos.repository.EventoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class EventoService(val repository: EventoRepository,
     val converter: EventoConverter) {
 
-    fun listar(): List<EventoResponseDTO> {
-        return repository.findAll()
-            .map { converter.toEventoResponseDTO(it) }
+    fun listar(nomeEvento: String?, paginacao: Pageable): Page<EventoResponseDTO> {
+        val eventos = if (nomeEvento == null) {
+            repository.findAll(paginacao)
+        } else {
+            repository.findByNome(nomeEvento, paginacao)
+        }
+
+        return eventos.map { converter.toEventoResponseDTO(it) }
     }
 
     fun buscaPorId(id: Long): EventoResponseDTO {
