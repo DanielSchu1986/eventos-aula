@@ -2,9 +2,12 @@ package br.upf.sistemadeeventos.controller
 
 import br.upf.sistemadeeventos.dtos.EventoRequestDTO
 import br.upf.sistemadeeventos.dtos.EventoResponseDTO
-import br.upf.sistemadeeventos.model.Evento
 import br.upf.sistemadeeventos.service.EventoService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -23,8 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder
 class EventoController(private val service: EventoService) {
 
     @GetMapping
-    fun listar(): List<EventoResponseDTO> {
-        return service.listar()
+    fun listar(@RequestParam(required = false) nomeEvento: String?,
+        @PageableDefault(size = 10) paginacao: Pageable): Page<EventoResponseDTO> {
+        return service.listar(nomeEvento, paginacao)
     }
 
     @GetMapping("/{id}")
@@ -33,6 +38,7 @@ class EventoController(private val service: EventoService) {
     }
 
     @PostMapping
+    @Transactional
     fun cadastrar(
         @RequestBody @Valid evento: EventoRequestDTO,
         uriBuilder: UriComponentsBuilder
@@ -44,12 +50,14 @@ class EventoController(private val service: EventoService) {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun update(@PathVariable id: Long, @RequestBody @Valid evento: EventoRequestDTO):
             EventoResponseDTO {
         return service.update(id, evento)
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deletar(@PathVariable id: Long) {
         service.remove(id)
